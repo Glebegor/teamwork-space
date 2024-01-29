@@ -1,0 +1,9 @@
+# secconfigs
+.env
+token
+token.cs
+
+# cache
+__cache__
+__cache__
+_vs_cache_
