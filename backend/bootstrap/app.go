@@ -1,9 +1,14 @@
 package bootstrap
 
-import "log"
+import (
+	"log"
+
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
 type Application struct {
-	Env *Env
+	Mongo mongo.Client
+	Env   *Env
 }
 
 func App() Application {
@@ -13,6 +18,10 @@ func App() Application {
 		log.Fatal(err.Error())
 	}
 	app.Env = env
-
+	mongo, err := NewDBConnection(env)
+	if err != nil {
+		log.Fatal(err.Error)
+	}
+	app.Mongo = mongo
 	return *app
 }

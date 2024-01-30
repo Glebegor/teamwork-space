@@ -8,6 +8,7 @@ type Env struct {
 	DBname     string
 	DBsslmode  string
 	DBusername string
+	DBpassword string
 }
 
 func NewEnv() (*Env, error) {
