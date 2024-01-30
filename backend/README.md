@@ -46,8 +46,34 @@ api/v2/teamTasks/:id DELETE<br>
 ### Logic
 
 ## Enviroment
+### Env
+
+```
+DB_PASSWORD="123321"
+SECRET="key"
+```
+
+### Config
+
+```
+server:
+  ENV:  "development"
+  PORT: 8080
+
+db:
+  PORT:     5436
+  HOST:     "localhost"
+  NAME:     "team-work-space"
+  SSLMODE:  "disabled"
+  USERNAME: "admin"
+```
 
 ## Entityes
+### Domain
+#### User
+#### Team
+#### Profile
+#### Team tasks
 
 Roles:
 <ul>
