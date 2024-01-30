@@ -5,6 +5,6 @@ server:
 db:
   PORT:     5436
   HOST:     "localhost"
-  NAME:     "team-work-space"
+  NAME:     "db-team-work-space"
   SSLMODE:  "disabled"
   USERNAME: "admin"
