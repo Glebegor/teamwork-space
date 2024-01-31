@@ -23,6 +23,7 @@ type SingleResult interface {
 type Cursor interface {
 }
 type Client interface {
+	Database(string) Database
 	Connect(context.Context) error
 	Ping(context.Context) error
 }
@@ -33,22 +34,31 @@ type mongoClient struct {
 }
 
 type mongoCursor struct {
+	mc *mongo.Cursor
 }
 
 type mongoDatabase struct {
+	db *mongo.Database
 }
 type mongoCollection struct {
+	coll *mongo.Collection
 }
 
 type mongoSingleResult struct {
+	sr *mongo.SingleResult
 }
 
 type mongoSession struct {
+	mongo.Session
 }
 
 type nullwareDecoder struct {
 }
 
+func (mc *mongoClient) Database(dbname string) Database {
+	db := mc.cl.Database(dbname)
+	return &mongoDatabase{db: db}
+}
 func NewClient(connection string) (Client, error) {
 	time.Local = time.UTC
 	c, err := mongo.NewClient(options.Client().ApplyURI(connection))
