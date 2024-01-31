@@ -3,7 +3,8 @@ package bootstrap
 import (
 	"log"
 
-	"go.mongodb.org/mongo-driver/mongo"
+	// "go.mongodb.org/mongo-driver/mongo"
+	"team-work-space/mongo"
 )
 
 type Application struct {
@@ -20,7 +21,7 @@ func App() Application {
 	app.Env = env
 	mongo, err := NewDBConnection(env)
 	if err != nil {
-		log.Fatal(err.Error)
+		log.Fatal(err.Error())
 	}
 	app.Mongo = mongo
 	return *app
