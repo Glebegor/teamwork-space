@@ -1,9 +1,3 @@
----
-runme:
-  id: 01HNDRCWH3EHTAVFV24HV239WW
-  version: v2.2
----
-
 # Backend
 
 ## Description
@@ -22,26 +16,27 @@ That is the backend that based on clean architecture and using REST and GRPC to 
 
 #### api/v1/;
 
-api/v1/teams/        GET
-api/v1/teams/:id     GET
+api/v1/teams/        GET<br>
+api/v1/teams/:id     GET<br>
 
-api/v2/profile/      GET
-api/v2/profile/:id   GET
+api/v1/users/      GET<br>
+api/v1/users/getById/:id   GET<br>
+api/v1/users/getByEmail/:email   GET<br>
 
 #### api/v2/;
 
-api/v2/teams/        POST
-api/v2/teams/:id     PUT
-api/v2/teams/:id     DELETE
+api/v2/teams/        POST<br>
+api/v2/teams/:id     PUT<br>
+api/v2/teams/:id     DELETE<br>
 
-api/v2/profile/:id   PUT
-api/v2/profile/:id   DELETE
+api/v2/users/:id     PUT<br>
+api/v2/users/:id     DELETE<br>
 
-api/v2/teamTasks/    POST
-api/v2/teamTasks/    GET
-api/v2/teamTasks/:id GET
-api/v2/teamTasks/:id PUT
-api/v2/teamTasks/:id DELETE
+api/v2/teamTasks/    POST<br>
+api/v2/teamTasks/    GET<br>
+api/v2/teamTasks/:id GET<br>
+api/v2/teamTasks/:id PUT<br>
+api/v2/teamTasks/:id DELETE<br>
 
 #### api/v3/;
 
@@ -51,14 +46,14 @@ api/v2/teamTasks/:id DELETE
 
 ### Env
 
-```sh {"id":"01HNFM6NAE7YRMZQ68ZP474DNV"}
+```
 DB_PASSWORD="123321"
 SECRET="key"
 ```
 
 ### Config
 
-```yaml {"id":"01HNFM6NAE7YRMZQ68ZQQMAS8Z"}
+```
 server:
   ENV:  "development"
   PORT: 8080

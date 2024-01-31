@@ -17,8 +17,9 @@ func NewUserPublicRouter(env *bootstrap.Env, db mongo.Database, timeout time.Dur
 	uc := &controller.UserController{
 		UserUsecase: usecase.NewUserUsecase(ur, timeout),
 	}
-	group.POST("/users", uc.GetById)
-	group.POST("/users", uc.GetByEmail)
+	group.GET("/users", uc.GetById)
+	group.GET("/users/getById/:id", uc.GetById)
+	group.GET("/users/getByEmail/:email", uc.GetByEmail)
 }
 
 func NewUserProtectRouter(env *bootstrap.Env, db mongo.Database, timeout time.Duration, group *gin.RouterGroup) {
@@ -26,6 +27,6 @@ func NewUserProtectRouter(env *bootstrap.Env, db mongo.Database, timeout time.Du
 	uc := &controller.UserController{
 		UserUsecase: usecase.NewUserUsecase(ur, timeout),
 	}
-	group.PUT("/users/MyInfo", uc.GetById)
-	group.PUT("/users", uc.GetById)
+	group.DELETE("/users", uc.Delete)
+	group.PUT("/users", uc.Update)
 }
