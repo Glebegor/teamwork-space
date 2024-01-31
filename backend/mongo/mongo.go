@@ -55,8 +55,18 @@ type mongoSession struct {
 type nullwareDecoder struct {
 }
 
-func (mc *mongoClient) Database(dbname string) Database {
-	db := mc.cl.Database(dbname)
+func (md *mongoDatabase) Collection(colName string) Collection {
+	collection := md.db.Collection(colName)
+	return &mongoCollection{coll: collection}
+}
+
+func (md *mongoDatabase) Client() Client {
+	client := md.db.Client()
+	return &mongoClient{cl: client}
+}
+
+func (mc *mongoClient) Database(dbName string) Database {
+	db := mc.cl.Database(dbName)
 	return &mongoDatabase{db: db}
 }
 func NewClient(connection string) (Client, error) {
