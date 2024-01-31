@@ -2,8 +2,8 @@ package bootstrap
 
 type Env struct {
 	SERVERenv  string
-	SERVERport int
-	DBport     int
+	SERVERport string
+	DBport     string
 	DBhost     string
 	DBname     string
 	DBsslmode  string

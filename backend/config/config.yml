@@ -1,9 +1,9 @@
 server:
   ENV:  "development"
-  PORT: 8080
+  PORT: "8080"
 
 db:
-  PORT:     5436
+  PORT:     "5436"
   HOST:     "localhost"
   NAME:     "db-team-work-space"
   SSLMODE:  "disabled"
