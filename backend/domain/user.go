@@ -1,6 +1,23 @@
 package domain
 
+const CollectionUser = "users"
+
 type User struct{}
 
-type UserRepository interface{}
-type UserUsecase interface{}
+type UserUpdate struct{}
+
+type UserRepository interface {
+	Create(*User) (*User, error)
+	GetById(id string) (*User, error)
+	GetByEmail(email string) (*User, error)
+
+	Update(*UserUpdate) error
+}
+
+type UserUsecase interface {
+	Create(*User) (*User, error)
+	GetById(id string) (*User, error)
+	GetByEmail(email string) (*User, error)
+
+	Update(*UserUpdate) error
+}
