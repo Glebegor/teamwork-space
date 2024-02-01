@@ -11,7 +11,7 @@ type UserController struct {
 	UserUsecase domain.UserUsecase
 }
 
-func (uc *UserController) GetByAll(c *gin.Context) {
+func (uc *UserController) GetAll(c *gin.Context) {
 	var data []domain.User
 	c.JSON(http.StatusOK, data)
 }

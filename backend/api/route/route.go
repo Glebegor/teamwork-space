@@ -12,6 +12,7 @@ import (
 func SetupRoute(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gin *gin.Engine) {
 	fmt.Print("PUBLIC ROUTES...\n")
 	publicRouter := gin.Group("api/v1")
+	NewAuthRouter(env, db, timeout, publicRouter)
 	NewUserPublicRouter(env, db, timeout, publicRouter)
 
 	fmt.Print("PROTECT ROUTES...\n")
