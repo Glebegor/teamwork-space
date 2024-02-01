@@ -31,7 +31,7 @@ func (ar *authRepository) Create(c context.Context, input domain.User) error {
 func (ar *authRepository) GetByEmail(c context.Context, email string) (domain.User, error) {
 	collection := ar.database.Collection(ar.collection)
 	var user domain.User
+
 	err := collection.FindOne(c, bson.M{"email": email}).Decode(&user)
-	fmt.Print(user)
 	return user, err
 }

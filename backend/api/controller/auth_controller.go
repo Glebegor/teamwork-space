@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"team-work-space/domain"
 
@@ -19,16 +20,16 @@ func (ac *AuthController) Login(c *gin.Context) {
 func (ac *AuthController) Reg(c *gin.Context) {
 	var input domain.Reg
 
-	if err := c.ShouldBind(&input); err != nil {
+	if err := c.BindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
-
+	fmt.Print(input)
 	if foundUser, err := ac.AuthUsecase.GetByEmail(c, input.Email); err == nil {
-		if foundUser.Username == input.Username {
-			c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same name."})
-			return
-		}
+		// if foundUser.Username == input.Username {
+		// 	c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same name."})
+		// 	return
+		// }
 		c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same email."})
 		return
 	}

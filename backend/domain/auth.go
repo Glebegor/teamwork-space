@@ -7,9 +7,9 @@ import (
 const AuthCollection = "users"
 
 type Reg struct {
-	Username string `form:"username"`
-	Email    string `form:"email"`
-	Password string `form:"password"`
+	Username string `form:"username" json:"username"`
+	Email    string `form:"email" json:"email"`
+	Password string `form:"password" json:"password"`
 }
 type Login struct{}
 
