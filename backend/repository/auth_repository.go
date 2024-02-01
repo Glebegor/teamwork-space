@@ -2,8 +2,11 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"team-work-space/domain"
 	"team-work-space/mongo"
+
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type authRepository struct {
@@ -18,8 +21,17 @@ func NewAuthRepository(database mongo.Database, collection string) domain.AuthRe
 	}
 }
 
-func (ar *authRepository) Create(c context.Context, input domain.Reg) error {
+func (ar *authRepository) Create(c context.Context, input domain.User) error {
 	collection := ar.database.Collection(ar.collection)
-	err := collection.InsertOne(c, input)
+	id, err := collection.InsertOne(c, input)
+	fmt.Print(id)
 	return err
+}
+
+func (ar *authRepository) GetByEmail(c context.Context, email string) (domain.User, error) {
+	collection := ar.database.Collection(ar.collection)
+	var user domain.User
+	err := collection.FindOne(c, bson.M{"email": email}).Decode(&user)
+	fmt.Print(user)
+	return user, err
 }

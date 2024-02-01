@@ -18,8 +18,8 @@ func NewUserPublicRouter(env *bootstrap.Env, db mongo.Database, timeout time.Dur
 		UserUsecase: usecase.NewUserUsecase(ur, timeout),
 	}
 	group.GET("/users", uc.GetById)
-	group.GET("/users/getById/:id", uc.GetById)
-	group.GET("/users/getByEmail/:email", uc.GetByEmail)
+	group.GET("/users/getById/", uc.GetById)
+	group.GET("/users/getByEmail/", uc.GetByEmail)
 }
 
 func NewUserProtectRouter(env *bootstrap.Env, db mongo.Database, timeout time.Duration, group *gin.RouterGroup) {

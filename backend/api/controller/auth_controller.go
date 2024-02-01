@@ -5,6 +5,7 @@ import (
 	"team-work-space/domain"
 
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type AuthController struct {
@@ -17,11 +18,29 @@ func (ac *AuthController) Login(c *gin.Context) {
 
 func (ac *AuthController) Reg(c *gin.Context) {
 	var input domain.Reg
-	if err := c.BindJSON(&input); err != nil {
+
+	if err := c.ShouldBind(&input); err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
-	if err := ac.AuthUsecase.Register(c, input); err != nil {
+
+	if foundUser, err := ac.AuthUsecase.GetByEmail(c, input.Email); err == nil {
+		if foundUser.Username == input.Username {
+			c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same name."})
+			return
+		}
+		c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same email."})
+		return
+	}
+
+	newUser := domain.User{
+		ID:       primitive.NewObjectID(),
+		Username: input.Username,
+		Password: input.Password,
+		Email:    input.Email,
+	}
+
+	if err := ac.AuthUsecase.Register(c, newUser); err != nil {
 		c.JSON(http.StatusBadGateway, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
