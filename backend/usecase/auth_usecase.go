@@ -19,5 +19,5 @@ func NewAuthUsecase(repo domain.AuthRepository, timeout time.Duration) domain.Au
 }
 
 func (au *authUsecase) Register(c context.Context, input domain.Reg) error {
-	return nil
+	return au.repo.Create(c, input)
 }
