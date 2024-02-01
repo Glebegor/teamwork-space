@@ -20,6 +20,6 @@ func NewAuthRepository(database mongo.Database, collection string) domain.AuthRe
 
 func (ar *authRepository) Create(c context.Context, input domain.Reg) error {
 	collection := ar.database.Collection(ar.collection)
-	_, err := collection.InsertOne(c, input)
-	return nil
+	err := collection.InsertOne(c, input)
+	return err
 }

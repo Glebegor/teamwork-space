@@ -15,6 +15,7 @@ type Database interface {
 }
 
 type Collection interface {
+	InsertOne(ctx context.Context, data interface{}) error
 }
 
 type SingleResult interface {
@@ -53,6 +54,11 @@ type mongoSession struct {
 }
 
 type nullwareDecoder struct {
+}
+
+func (mc *mongoCollection) InsertOne(ctx context.Context, data interface{}) error {
+	_, err := mc.coll.InsertOne(ctx, data)
+	return err
 }
 
 func (md *mongoDatabase) Collection(colName string) Collection {
