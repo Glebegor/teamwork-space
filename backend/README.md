@@ -7,6 +7,9 @@ That is the backend that based on clean architecture and using REST and GRPC to 
 </p>
 
 ## API
+### Responses
+<p>Error Response: { "Message": "Some info."}</p>
+<p>Success Response: { "Status": "ok"}</p>
 
 ### Routes
 
@@ -15,6 +18,9 @@ That is the backend that based on clean architecture and using REST and GRPC to 
 <p>api/v3/ - open api routes</p>
 
 #### api/v1/;
+
+api/v1/auth/login POST<br>
+api/v1/auth/registration POST<br>
 
 api/v1/teams/        GET<br>
 api/v1/teams/:id     GET<br>
@@ -41,6 +47,22 @@ api/v2/teamTasks/:id DELETE<br>
 #### api/v3/;
 
 ### Logic
+
+#### Authorization
+
+##### api/v1/auth/login
+Type | JSON | headers
+--- | --- | ---
+Request | --- | ---
+Response | --- | --- 
+Error response | Error response | ---
+
+##### api/v1/auth/registration
+Type | JSON | headers
+--- | --- | ---
+Request | {"email":"email@email.com", "username": "Glebegor", "password": "HASHSHSHDHHS123p09D@1930j" } | ---
+Response | Success response | ---
+Error response | Error response | ---
 
 ## Enviroment
 

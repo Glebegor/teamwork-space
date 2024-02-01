@@ -25,7 +25,7 @@ func (ac *AuthController) Reg(c *gin.Context) {
 		return
 	}
 	fmt.Print(input)
-	if foundUser, err := ac.AuthUsecase.GetByEmail(c, input.Email); err == nil {
+	if _, err := ac.AuthUsecase.GetByEmail(c, input.Email); err == nil {
 		// if foundUser.Username == input.Username {
 		// 	c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same name."})
 		// 	return
