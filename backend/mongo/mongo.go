@@ -15,12 +15,16 @@ type Database interface {
 }
 
 type Collection interface {
+	InsertOne(ctx context.Context, data interface{}) (interface{}, error)
+	FindOne(c context.Context, filter interface{}) SingleResult
 }
 
 type SingleResult interface {
+	Decode(v interface{}) error
 }
 
 type Cursor interface {
+	Decode(v interface{}) error
 }
 type Client interface {
 	Database(string) Database
@@ -55,6 +59,15 @@ type mongoSession struct {
 type nullwareDecoder struct {
 }
 
+func (mc *mongoCollection) InsertOne(ctx context.Context, data interface{}) (interface{}, error) {
+	id, err := mc.coll.InsertOne(ctx, data)
+	return id.InsertedID, err
+}
+func (mc *mongoCollection) FindOne(c context.Context, filter interface{}) SingleResult {
+	SingleResult := mc.coll.FindOne(c, filter)
+	return &mongoSingleResult{sr: SingleResult}
+}
+
 func (md *mongoDatabase) Collection(colName string) Collection {
 	collection := md.db.Collection(colName)
 	return &mongoCollection{coll: collection}
@@ -79,4 +92,12 @@ func (mc *mongoClient) Connect(ctx context.Context) error {
 }
 func (mc *mongoClient) Ping(ctx context.Context) error {
 	return mc.cl.Ping(ctx, readpref.Primary())
+}
+
+func (ms *mongoSingleResult) Decode(v interface{}) error {
+	return ms.sr.Decode(v)
+}
+
+func (mr *mongoCursor) Decode(v interface{}) error {
+	return mr.mc.Decode(v)
 }

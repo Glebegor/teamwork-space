@@ -17,7 +17,8 @@ func main() {
 
 	gin := gin.Default()
 	gin.Use(bootstrap.CORS())
-	gin.Run(":" + env.SERVERport)
 
 	route.SetupRoute(env, timeout, db, gin)
+	gin.Run(":" + env.SERVERport)
+
 }
