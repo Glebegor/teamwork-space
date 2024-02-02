@@ -7,12 +7,12 @@ import (
 type JwtClaims struct {
 	UserId   string `json:"userId"`
 	Username string `json:"username"`
-	RoleId   string `json:"roleId"`
+	Role     string `json:"role"`
 	jwt.StandardClaims
 }
 
 type JwtData struct {
 	UserId   string `json:"userId"`
 	Username string `json:"username"`
-	RoleId   string `json:"roleId"`
+	Role     string `json:"role"`
 }

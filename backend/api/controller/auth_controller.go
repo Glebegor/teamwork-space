@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
+	"team-work-space/bootstrap"
 	"team-work-space/domain"
 
 	"github.com/gin-gonic/gin"
@@ -11,11 +11,29 @@ import (
 
 type AuthController struct {
 	AuthUsecase domain.AuthUsecase
+	Env         *bootstrap.Env
 }
 
 func (ac *AuthController) Login(c *gin.Context) {
+	var input domain.Login
+	if err := c.BindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+	user, err := ac.AuthUsecase.GetByEmail(c, input.Email)
+	if err != nil {
+		c.JSON(http.StatusNotFound, domain.ErrorResponse{Message: "User not found with the given email"})
+		return
+	}
 
-	c.JSON(http.StatusOK, domain.SuccessResponse{Status: "ok"})
+	tokenAccess, err := ac.AuthUsecase.CreateAccessToken(&user, ac.Env.SERVERsecret, 2)
+	// tokenRefresh, err := ac.AuthUsecase.CreateAccessToken(&user, ac.Env.SECRET, 2)
+	loginResponse := &domain.LoginResponse{
+		AccessToken: tokenAccess,
+		// RefreshToken: tokenRefresh,
+	}
+
+	c.JSON(http.StatusOK, loginResponse)
 }
 
 func (ac *AuthController) Reg(c *gin.Context) {
@@ -25,7 +43,6 @@ func (ac *AuthController) Reg(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
-	fmt.Print(input)
 	if _, err := ac.AuthUsecase.GetByEmail(c, input.Email); err == nil {
 		// if foundUser.Username == input.Username {
 		// 	c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same name."})

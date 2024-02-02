@@ -27,7 +27,6 @@ func (ar *authRepository) Create(c context.Context, input domain.User) error {
 	fmt.Print(id)
 	return err
 }
-
 func (ar *authRepository) GetByEmail(c context.Context, email string) (domain.User, error) {
 	collection := ar.database.Collection(ar.collection)
 	var user domain.User

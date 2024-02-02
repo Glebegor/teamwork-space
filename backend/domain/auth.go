@@ -11,15 +11,20 @@ type Reg struct {
 	Email    string `form:"email" json:"email"`
 	Password string `form:"password" json:"password"`
 }
-type Login struct{}
-
+type Login struct {
+	Email    string `form:"email" json:"email"`
+	Password string `form:"password" json:"password"`
+}
+type LoginResponse struct {
+	AccessToken  string `form:"accessToken" json:"accessToken"`
+	RefreshToken string `form:"refreshToken" json:"refreshToken"`
+}
 type AuthRepository interface {
 	Create(c context.Context, input User) error
 	GetByEmail(c context.Context, email string) (User, error)
-	// Login(c context.Context, input Login) error
 }
 type AuthUsecase interface {
 	GetByEmail(c context.Context, email string) (User, error)
 	Register(c context.Context, input User) error
-	// Login(c context.Context, input Login) error
+	CreateAccessToken(user *User, secret string, expiry int) (string, error)
 }

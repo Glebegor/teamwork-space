@@ -18,7 +18,7 @@ func SetupRoute(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gi
 
 	fmt.Print("PROTECT ROUTES...\n")
 	protectedRouter := gin.Group("api/v2")
-	protectedRouter.Use(middleware.JwtAuthMiddleware(env.SECRET))
+	protectedRouter.Use(middleware.JwtAuthMiddleware(env.SERVERsecret))
 	NewUserProtectRouter(env, db, timeout, protectedRouter)
 
 	fmt.Print("OPEN ROUTES...\n")
