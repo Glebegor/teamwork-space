@@ -14,6 +14,7 @@ type AuthController struct {
 }
 
 func (ac *AuthController) Login(c *gin.Context) {
+
 	c.JSON(http.StatusOK, domain.SuccessResponse{Status: "ok"})
 }
 
