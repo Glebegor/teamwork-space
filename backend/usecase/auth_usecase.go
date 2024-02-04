@@ -27,6 +27,6 @@ func (au *authUsecase) GetByEmail(c context.Context, email string) (domain.User,
 	return au.repo.GetByEmail(c, email)
 }
 func (au *authUsecase) CreateAccessToken(user *domain.User, secret string, expiry int) (string, error) {
-	fmt.Print(user)
-	return tokenutil.CreateJwtToken(user, secret, expiry)
+	fmt.Printf("Some info %v", user)
+	return tokenutil.CreateAccessToken(user, secret, expiry)
 }
