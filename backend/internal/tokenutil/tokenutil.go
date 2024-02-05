@@ -74,3 +74,22 @@ func GetDataFromClaims(requestToken string, secret string) (*domain.JwtAccessDat
 	}
 	return jwtData, nil
 }
+func GetIdFromRefreshToken(requestToken string, secret string) (string, error) {
+	token, err := jwt.Parse(requestToken, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return "", fmt.Errorf("Unexepted signing method: %v", token.Header["alg"])
+		}
+		return []byte(secret), nil
+	})
+	if err != nil {
+		return "", err
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+
+	if !ok && !token.Valid {
+		return "", fmt.Errorf("Invalid token")
+	}
+	return claims["id"].(string), nil
+
+}
