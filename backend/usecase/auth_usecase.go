@@ -28,3 +28,6 @@ func (au *authUsecase) GetByEmail(c context.Context, email string) (domain.User,
 func (au *authUsecase) CreateAccessToken(user *domain.User, secret string, expiry int) (string, error) {
 	return tokenutil.CreateAccessToken(user, secret, expiry)
 }
+func (au *authUsecase) CreateRefreshToken(user *domain.User, secret string, expiry int) (string, error) {
+	return tokenutil.CreateRefreshToken(user, secret, expiry)
+}

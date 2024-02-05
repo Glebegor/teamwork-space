@@ -27,10 +27,10 @@ func (ac *AuthController) Login(c *gin.Context) {
 	}
 
 	tokenAccess, err := ac.AuthUsecase.CreateAccessToken(&user, ac.Env.SERVERsecret, 2)
-	// tokenRefresh, err := ac.AuthUsecase.CreateAccessToken(&user, ac.Env.SECRET, 2)
+	tokenRefresh, err := ac.AuthUsecase.CreateRefreshToken(&user, ac.Env.SERVERsecret, 24)
 	loginResponse := &domain.LoginResponse{
-		AccessToken: tokenAccess,
-		// RefreshToken: tokenRefresh,
+		AccessToken:  tokenAccess,
+		RefreshToken: tokenRefresh,
 	}
 
 	c.JSON(http.StatusOK, loginResponse)
@@ -65,3 +65,7 @@ func (ac *AuthController) Reg(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, domain.SuccessResponse{Status: "ok"})
 }
+
+// func (ac *AuthController) RefreshToken(c *gin.Context) {
+// 	var
+// }
