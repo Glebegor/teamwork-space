@@ -20,4 +20,5 @@ func NewAuthRouter(env *bootstrap.Env, db mongo.Database, timeout time.Duration,
 	}
 	group.POST("/auth/login", ac.Login)
 	group.POST("/auth/registration", ac.Reg)
+	group.POST("/auth/refresh", ac.Refresh)
 }
