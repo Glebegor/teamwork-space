@@ -10,7 +10,7 @@ import (
 
 func CreateAccessToken(user *domain.User, secret string, expiry int) (accessToken string, err error) {
 	exp := time.Now().Add(time.Hour * time.Duration(expiry)).Unix()
-	claims := &domain.JwtClaims{
+	claims := &domain.JwtClaimsAccess{
 		UserId:   user.ID.String(),
 		Username: user.Username,
 		Role:     "User",
@@ -26,7 +26,20 @@ func CreateAccessToken(user *domain.User, secret string, expiry int) (accessToke
 	}
 	return t, nil
 }
-
+func CreateRefreshToken(user *domain.User, secret string, expiry int) (string, error) {
+	claimsRefresh := &domain.JwtClaimsRefresh{
+		ID: user.ID.Hex(),
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: int64(expiry),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claimsRefresh)
+	rt, err := token.SignedString([]byte(secret))
+	if err != nil {
+		return "", err
+	}
+	return rt, nil
+}
 func IsAuthorized(requestToken string, secret string) (bool, error) {
 	_, err := jwt.Parse(requestToken, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -40,7 +53,7 @@ func IsAuthorized(requestToken string, secret string) (bool, error) {
 	return true, nil
 }
 
-func GetDataFromClaims(requestToken string, secret string) (*domain.JwtData, error) {
+func GetDataFromClaims(requestToken string, secret string) (*domain.JwtAccessData, error) {
 	token, err := jwt.Parse(requestToken, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
@@ -54,7 +67,7 @@ func GetDataFromClaims(requestToken string, secret string) (*domain.JwtData, err
 	if !ok && !token.Valid {
 		return nil, fmt.Errorf("Invalid token:")
 	}
-	jwtData := &domain.JwtData{
+	jwtData := &domain.JwtAccessData{
 		UserId:   claims["userId"].(string),
 		Username: claims["username"].(string),
 		Role:     claims["role"].(string),
