@@ -6,7 +6,3 @@ rundb:
   -d --rm\
   -v db-team-work-space\
   mongo
-migrate-up:
-	pass
-migrate-down:
-	pass

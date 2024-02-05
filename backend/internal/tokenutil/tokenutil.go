@@ -14,6 +14,7 @@ func CreateAccessToken(user *domain.User, secret string, expiry int) (accessToke
 		UserId:   user.ID.String(),
 		Username: user.Username,
 		Role:     "User",
+		Email:    user.Email,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: exp,
 		},
