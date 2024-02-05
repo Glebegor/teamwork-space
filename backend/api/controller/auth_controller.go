@@ -25,6 +25,7 @@ func (ac *AuthController) Login(c *gin.Context) {
 		c.JSON(http.StatusNotFound, domain.ErrorResponse{Message: "User not found with the given email"})
 		return
 	}
+
 	tokenAccess, err := ac.AuthUsecase.CreateAccessToken(&user, ac.Env.SERVERsecret, 2)
 	// tokenRefresh, err := ac.AuthUsecase.CreateAccessToken(&user, ac.Env.SECRET, 2)
 	loginResponse := &domain.LoginResponse{

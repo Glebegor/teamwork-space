@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"fmt"
 	"team-work-space/domain"
 	"team-work-space/internal/tokenutil"
 	"time"
@@ -27,6 +26,5 @@ func (au *authUsecase) GetByEmail(c context.Context, email string) (domain.User,
 	return au.repo.GetByEmail(c, email)
 }
 func (au *authUsecase) CreateAccessToken(user *domain.User, secret string, expiry int) (string, error) {
-	fmt.Printf("Some info %v", user)
 	return tokenutil.CreateAccessToken(user, secret, expiry)
 }

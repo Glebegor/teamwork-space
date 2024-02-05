@@ -16,6 +16,7 @@ func NewAuthRouter(env *bootstrap.Env, db mongo.Database, timeout time.Duration,
 	ar := repository.NewAuthRepository(db, domain.AuthCollection)
 	ac := &controller.AuthController{
 		AuthUsecase: usecase.NewAuthUsecase(ar, timeout),
+		Env:         env,
 	}
 	group.POST("/auth/login", ac.Login)
 	group.POST("/auth/registration", ac.Reg)
