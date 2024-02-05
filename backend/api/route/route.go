@@ -2,6 +2,7 @@ package route
 
 import (
 	"fmt"
+	"team-work-space/api/middleware"
 	"team-work-space/bootstrap"
 	"team-work-space/mongo"
 	"time"
@@ -17,6 +18,7 @@ func SetupRoute(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gi
 
 	fmt.Print("PROTECT ROUTES...\n")
 	protectedRouter := gin.Group("api/v2")
+	protectedRouter.Use(middleware.JwtAuthMiddleware(env.SERVERsecret))
 	NewUserProtectRouter(env, db, timeout, protectedRouter)
 
 	fmt.Print("OPEN ROUTES...\n")
