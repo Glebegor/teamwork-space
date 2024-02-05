@@ -30,7 +30,7 @@ func CreateRefreshToken(user *domain.User, secret string, expiry int) (string, e
 	claimsRefresh := &domain.JwtClaimsRefresh{
 		ID: user.ID.Hex(),
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: int64(expiry),
+			ExpiresAt: time.Now().Add(time.Hour * time.Duration(expiry)).Unix(),
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claimsRefresh)
@@ -77,10 +77,11 @@ func GetDataFromClaims(requestToken string, secret string) (*domain.JwtAccessDat
 func GetIdFromRefreshToken(requestToken string, secret string) (string, error) {
 	token, err := jwt.Parse(requestToken, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return "", fmt.Errorf("Unexepted signing method: %v", token.Header["alg"])
+			return nil, fmt.Errorf("Unexepted signing method: %v", token.Header["alg"])
 		}
 		return []byte(secret), nil
 	})
+
 	if err != nil {
 		return "", err
 	}
