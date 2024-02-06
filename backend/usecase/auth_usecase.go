@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"team-work-space/domain"
+	"team-work-space/internal/passwordutil"
 	"team-work-space/internal/tokenutil"
 	"time"
 )
@@ -38,4 +39,7 @@ func (au *authUsecase) GetUserById(c context.Context, id string) (domain.User, e
 	ctx, cancel := context.WithTimeout(c, au.contextTimeout)
 	defer cancel()
 	return au.repo.GetById(ctx, id)
+}
+func (au *authUsecase) EncryptPassword(password string, secret string) (string, error) {
+	return passwordutil.HashPasswordWithSalt(password, secret)
 }

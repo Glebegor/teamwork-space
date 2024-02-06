@@ -20,9 +20,21 @@ func (ac *AuthController) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
+
+	encodedPassword, err := ac.AuthUsecase.EncryptPassword(input.Password, ac.Env.SERVERsecret)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: "Invalid credentials"})
+		return
+	}
+	input.Password = encodedPassword
+
 	user, err := ac.AuthUsecase.GetByEmail(c, input.Email)
 	if err != nil {
 		c.JSON(http.StatusNotFound, domain.ErrorResponse{Message: "User not found with the given email"})
+		return
+	}
+	if user.Password != encodedPassword {
+		c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: "Password incorrect."})
 		return
 	}
 
@@ -44,13 +56,15 @@ func (ac *AuthController) Reg(c *gin.Context) {
 		return
 	}
 	if _, err := ac.AuthUsecase.GetByEmail(c, input.Email); err == nil {
-		// if foundUser.Username == input.Username {
-		// 	c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same name."})
-		// 	return
-		// }
 		c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same email."})
 		return
 	}
+	encodedPassword, err := ac.AuthUsecase.EncryptPassword(input.Password, ac.Env.SERVERsecret)
+	if err != nil {
+		c.JSON(http.StatusBadGateway, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+	input.Password = encodedPassword
 
 	newUser := domain.User{
 		ID:       primitive.NewObjectID(),
