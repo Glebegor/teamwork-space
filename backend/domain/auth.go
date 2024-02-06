@@ -40,4 +40,5 @@ type AuthUsecase interface {
 	CreateRefreshToken(user *User, secret string, expiry int) (string, error)
 	GetIdFromRefreshToken(requestToken string, secret string) (string, error)
 	GetUserById(c context.Context, id string) (User, error)
+	EncryptPassword(password string, secret string) (string, error)
 }

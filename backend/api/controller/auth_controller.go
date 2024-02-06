@@ -44,13 +44,15 @@ func (ac *AuthController) Reg(c *gin.Context) {
 		return
 	}
 	if _, err := ac.AuthUsecase.GetByEmail(c, input.Email); err == nil {
-		// if foundUser.Username == input.Username {
-		// 	c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same name."})
-		// 	return
-		// }
 		c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same email."})
 		return
 	}
+	encodedPassword, err := ac.AuthUsecase.EncryptPassword(input.Password, ac.Env.SERVERsecret)
+	if err != nil {
+		c.JSON(http.StatusBadGateway, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+	input.Password = encodedPassword
 
 	newUser := domain.User{
 		ID:       primitive.NewObjectID(),
