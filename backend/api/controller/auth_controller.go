@@ -50,7 +50,6 @@ func (ac *AuthController) Login(c *gin.Context) {
 
 func (ac *AuthController) Reg(c *gin.Context) {
 	var input domain.Reg
-
 	if err := c.BindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
@@ -71,6 +70,7 @@ func (ac *AuthController) Reg(c *gin.Context) {
 		Username: input.Username,
 		Password: input.Password,
 		Email:    input.Email,
+		Role:     "User",
 	}
 
 	if err := ac.AuthUsecase.Register(c, newUser); err != nil {

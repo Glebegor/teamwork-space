@@ -1,10 +1,7 @@
 # Backend
 
 ## Description
-
-<p>
-That is the backend that based on clean architecture and using REST and GRPC to communicate with clients or that provide open api for another server.  
-</p>
+<p>That is the backend that based on clean architecture and using REST and GRPC to communicate with clients or that provide open api for another server.</p>
 
 ## API
 
@@ -19,7 +16,7 @@ type JwtClaimsAccess struct {
 	Username string `json:"username"`
 	Role     string `json:"role"`
 	Email    string `json:"email"`
-	jwt.StandardClaims
+	jwt.StandardClaims // ExpiresAt number `json:"exp"`
 }
 ```
 
@@ -28,23 +25,20 @@ type JwtClaimsAccess struct {
 ```
 type JwtClaimsRefresh struct {
 	ID string `json:"id"`
-	jwt.StandardClaims
+	jwt.StandardClaims // ExpiresAt number `json:"exp"`
 }
 ```
 
 ### Responses
-
 <p>Error Response: { "Message": "Some info."}</p>
 <p>Success Response: { "Status": "ok"}</p>
 
 ### Routes
-
 <p>api/v1/ - public api routes</p>
 <p>api/v2/ - protected api routes by jwt</p>
 <p>api/v3/ - open api routes</p>
 
 #### api/v1/;
-
 api/v1/auth/login POST<br>
 api/v1/auth/registration POST<br>
 api/v1/auth/refresh POST<br>
@@ -76,6 +70,7 @@ api/v2/teamTasks/:id DELETE<br> -->
 ### Logic
 
 #### Authorization
+
 ##### api/v1/auth/login
 Type | JSON | headers
 --- | --- | ---
