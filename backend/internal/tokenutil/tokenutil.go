@@ -70,6 +70,7 @@ func GetDataFromClaims(requestToken string, secret string) (*domain.JwtAccessDat
 	jwtData := &domain.JwtAccessData{
 		UserId:   claims["userId"].(string),
 		Username: claims["username"].(string),
+		Email:    claims["emain"].(string),
 		Role:     claims["role"].(string),
 	}
 	return jwtData, nil
