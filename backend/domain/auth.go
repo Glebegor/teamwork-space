@@ -9,11 +9,22 @@ import (
 
 const AuthCollection = "users"
 
-var passwordRule = []validation.Rule{
+// Rules for AuthCollection
+var passwordAuthRule = []validation.Rule{
 	validation.Required,
 	validation.Length(8, 1000),
 	validation.Match(regexp.MustCompile("^\\S+$")).Error("cannot contain whitespaces"),
 }
+var emailAuthRule = []validation.Rule{
+	validation.Required,
+	validation.Length(4, 256),
+}
+var usernameAuthRule = []validation.Rule{
+	validation.Required,
+	validation.Length(4, 128),
+}
+
+// Structures of AuthCollection and validation rules
 
 type Reg struct {
 	Username string `form:"username" json:"username"`
@@ -23,9 +34,9 @@ type Reg struct {
 
 func (r Reg) Validate() error {
 	return validation.ValidateStruct(&r,
-		validation.Field(&r.Username, validation.Required, validation.Length(4, 128)),
-		validation.Field(&r.Email, validation.Required, validation.Length(4, 256)),
-		validation.Field(&r.Password, passwordRule...),
+		validation.Field(&r.Username, usernameAuthRule...),
+		validation.Field(&r.Email, emailAuthRule...),
+		validation.Field(&r.Password, passwordAuthRule...),
 	)
 }
 
@@ -33,10 +44,19 @@ type Login struct {
 	Email    string `form:"email" json:"email"`
 	Password string `form:"password" json:"password"`
 }
+
+func (l Login) Validate() error {
+	return validation.ValidateStruct(&l,
+		validation.Field(&l.Email, emailAuthRule...),
+		validation.Field(&l.Password, passwordAuthRule...),
+	)
+}
+
 type Refresh struct {
 	RefreshToken string `form:"refreshToken" json:"refreshToken"`
 }
 
+// Responses
 type LoginResponse struct {
 	AccessToken  string `form:"accessToken" json:"accessToken"`
 	RefreshToken string `form:"refreshToken" json:"refreshToken"`
@@ -46,6 +66,7 @@ type RefreshTokenResponse struct {
 	RefreshToken string `form:"refreshToken" json:"refreshToken"`
 }
 
+// Collections
 type AuthRepository interface {
 	Create(c context.Context, input User) error
 	GetByEmail(c context.Context, email string) (User, error)

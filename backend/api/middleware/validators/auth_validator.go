@@ -13,7 +13,7 @@ func RegValidator() gin.HandlerFunc {
 		var requestReg *domain.Reg
 		_ = c.ShouldBindBodyWith(&requestReg, binding.JSON)
 		if err := requestReg.Validate(); err != nil {
-			c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "Bad info"})
+			c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 			c.Abort()
 		}
 		c.Next()
