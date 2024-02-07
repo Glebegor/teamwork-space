@@ -2,15 +2,33 @@ package domain
 
 import (
 	"context"
+	"regexp"
+
+	validation "github.com/go-ozzo/ozzo-validation"
 )
 
 const AuthCollection = "users"
+
+var passwordRule = []validation.Rule{
+	validation.Required,
+	validation.Length(8, 1000),
+	validation.Match(regexp.MustCompile("^\\S+$")).Error("cannot contain whitespaces"),
+}
 
 type Reg struct {
 	Username string `form:"username" json:"username"`
 	Email    string `form:"email" json:"email"`
 	Password string `form:"password" json:"password"`
 }
+
+func (r Reg) Validate() error {
+	return validation.ValidateStruct(&r,
+		validation.Field(&r.Username, validation.Required, validation.Length(4, 128)),
+		validation.Field(&r.Email, validation.Required, validation.Length(4, 256)),
+		validation.Field(&r.Password, passwordRule...),
+	)
+}
+
 type Login struct {
 	Email    string `form:"email" json:"email"`
 	Password string `form:"password" json:"password"`
