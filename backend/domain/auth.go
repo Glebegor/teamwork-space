@@ -56,12 +56,7 @@ type Refresh struct {
 }
 
 func (r *Refresh) Validate() error {
-	return validation.ValidateStruct(&r,
-		validation.Field(&r.RefreshToken,
-			validation.Required,
-			validation.Match(regexp.MustCompile("^\\S+$")).Error("cannot contain whitespaces"),
-		),
-	)
+	return validation.Validate(&r.RefreshToken, validation.Required, validation.Match(regexp.MustCompile("^\\S+$")).Error("cannot contain whitespaces"))
 }
 
 // Responses
