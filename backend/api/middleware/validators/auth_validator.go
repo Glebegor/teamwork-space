@@ -10,9 +10,9 @@ import (
 
 func RegValidator() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var requestReg *domain.Reg
-		_ = c.ShouldBindBodyWith(&requestReg, binding.JSON)
-		if err := requestReg.Validate(); err != nil {
+		var request *domain.Reg
+		_ = c.ShouldBindBodyWith(&request, binding.JSON)
+		if err := request.Validate(); err != nil {
 			c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 			c.Abort()
 		}
@@ -21,11 +21,23 @@ func RegValidator() gin.HandlerFunc {
 }
 func LoginValidator() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		var request *domain.Login
+		_ = c.ShouldBindBodyWith(&request, binding.JSON)
+		if err := request.Validate(); err != nil {
+			c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+			c.Abort()
+		}
 		c.Next()
 	}
 }
 func RefreshValidator() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		var request *domain.Refresh
+		_ = c.ShouldBindBodyWith(&request, binding.JSON)
+		if err := request.Validate(); err != nil {
+			c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+			c.Abort()
+		}
 		c.Next()
 	}
 }

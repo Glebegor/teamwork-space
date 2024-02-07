@@ -25,7 +25,6 @@ var usernameAuthRule = []validation.Rule{
 }
 
 // Structures of AuthCollection and validation rules
-
 type Reg struct {
 	Username string `form:"username" json:"username"`
 	Email    string `form:"email" json:"email"`
@@ -54,6 +53,15 @@ func (l Login) Validate() error {
 
 type Refresh struct {
 	RefreshToken string `form:"refreshToken" json:"refreshToken"`
+}
+
+func (r *Refresh) Validate() error {
+	return validation.ValidateStruct(&r,
+		validation.Field(&r.RefreshToken,
+			validation.Required,
+			validation.Match(regexp.MustCompile("^\\S+$")).Error("cannot contain whitespaces"),
+		),
+	)
 }
 
 // Responses
