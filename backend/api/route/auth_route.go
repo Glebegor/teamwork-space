@@ -2,6 +2,7 @@ package route
 
 import (
 	"team-work-space/api/controller"
+	"team-work-space/api/middleware/validators"
 	"team-work-space/bootstrap"
 	"team-work-space/domain"
 	"team-work-space/mongo"
@@ -19,6 +20,6 @@ func NewAuthRouter(env *bootstrap.Env, db mongo.Database, timeout time.Duration,
 		Env:         env,
 	}
 	group.POST("/auth/login", ac.Login)
-	group.POST("/auth/registration", ac.Reg)
+	group.POST("/auth/registration", validators.RegValidator(), ac.Reg)
 	group.POST("/auth/refresh", ac.Refresh)
 }

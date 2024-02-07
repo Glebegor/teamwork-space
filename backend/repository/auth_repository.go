@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"fmt"
 	"team-work-space/domain"
 	"team-work-space/mongo"
 
@@ -24,8 +23,7 @@ func NewAuthRepository(database mongo.Database, collection string) domain.AuthRe
 
 func (ar *authRepository) Create(c context.Context, input domain.User) error {
 	collection := ar.database.Collection(ar.collection)
-	id, err := collection.InsertOne(c, input)
-	fmt.Print(id)
+	_, err := collection.InsertOne(c, input)
 	return err
 }
 func (ar *authRepository) GetByEmail(c context.Context, email string) (domain.User, error) {
