@@ -6,6 +6,7 @@ import (
 	"team-work-space/domain"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -16,7 +17,7 @@ type AuthController struct {
 
 func (ac *AuthController) Login(c *gin.Context) {
 	var input domain.Reg
-	if err := c.BindJSON(&input); err != nil {
+	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
@@ -50,7 +51,7 @@ func (ac *AuthController) Login(c *gin.Context) {
 
 func (ac *AuthController) Reg(c *gin.Context) {
 	var input domain.Reg
-	if err := c.BindJSON(&input); err != nil {
+	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
@@ -83,7 +84,7 @@ func (ac *AuthController) Reg(c *gin.Context) {
 func (ac *AuthController) Refresh(c *gin.Context) {
 	var input domain.Refresh
 
-	if err := c.BindJSON(&input); err != nil {
+	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
