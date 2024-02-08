@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"team-work-space/api/route"
 	"team-work-space/bootstrap"
 	"time"
@@ -19,6 +20,9 @@ func main() {
 	gin.Use(bootstrap.CORS())
 
 	route.SetupRoute(env, timeout, db, gin)
+	if env.SERVERenv == "development" {
+		fmt.Print("Running in development enviroment.\n	")
+	}
 	gin.Run(":" + env.SERVERport)
 
 }
