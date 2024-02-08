@@ -7,8 +7,11 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+
+	_ "team-work-space/docs"
 )
 
+// @title Team work space Service API
 func main() {
 	app := bootstrap.App()
 	env := app.Env

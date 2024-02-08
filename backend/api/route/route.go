@@ -27,7 +27,6 @@ func SetupRoute(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gi
 	// openRouter := gin.Group("api/v3")
 
 	// Add docs
-
 	if env.SERVERenv == "development" {
 		fmt.Print("DOCS ROUTES...\n")
 		gin.GET("docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
