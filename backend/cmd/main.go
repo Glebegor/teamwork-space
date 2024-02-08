@@ -1,13 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"team-work-space/api/route"
 	"team-work-space/bootstrap"
 	"time"
 
 	"github.com/gin-gonic/gin"
+
+	_ "team-work-space/docs"
 )
 
+// @title Team work space Service API
 func main() {
 	app := bootstrap.App()
 	env := app.Env
@@ -19,6 +23,9 @@ func main() {
 	gin.Use(bootstrap.CORS())
 
 	route.SetupRoute(env, timeout, db, gin)
+	if env.SERVERenv == "development" {
+		fmt.Print("Running in development enviroment.\n	")
+	}
 	gin.Run(":" + env.SERVERport)
 
 }
