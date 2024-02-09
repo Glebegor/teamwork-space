@@ -43,20 +43,20 @@ api/v1/auth/login POST<br>
 api/v1/auth/registration POST<br>
 api/v1/auth/refresh POST<br>
 
-<!-- api/v1/teams/        GET<br>
+api/v1/teams/        GET<br>
 api/v1/teams/:id     GET<br>
 
-api/v1/users/      GET<br>
+<!-- api/v1/users/      GET<br>
 api/v1/users/getById/:id   GET<br>
 api/v1/users/getByEmail/:email   GET<br> -->
 
 #### api/v2/;
 
-<!-- api/v2/teams/        POST<br>
+api/v2/teams/        POST<br>
 api/v2/teams/:id     PUT<br>
 api/v2/teams/:id     DELETE<br>
 
-api/v2/users/:id     PUT<br>
+<!-- api/v2/users/:id     PUT<br>
 api/v2/users/:id     DELETE<br>
 
 api/v2/teamTasks/    POST<br>
