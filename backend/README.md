@@ -144,4 +144,5 @@ Roles:
 <li>Admin</li>
 <li>User</li>
 <li>Subscriber</li>
+<li>Support</li>
 </ul>
