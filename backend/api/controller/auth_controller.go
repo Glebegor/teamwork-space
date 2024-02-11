@@ -16,29 +16,31 @@ type AuthController struct {
 	Env         *bootstrap.Env
 }
 
+// Login
 // @Summary Login
 // @Description Do authorization with using email and password
 // @Tags auth v1
 // @ID authorization-user
 // @Accept json
 // @Produce json
-// @Param input body domain.Login true "Registration"
+// @Param input body domain.Login true "Login"
 // @Success 200 {object} domain.LoginResponse
-// @Failuer 500 {object} domain.ErrorResponse
-// @Failuer 400, 404 {object} domain.ErrorResponse
+// @Failure 500 {object} domain.ErrorResponse
+// @Failure 502 {object} domain.ErrorResponse
+// @Failure 400, 404 {object} domain.ErrorResponse
 // @Failure default {object} domain.ErrorResponse
 // @Router /api/v1/auth/login [post]
 func (ac *AuthController) Login(c *gin.Context) {
 	var input domain.Reg
 	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
-		logrus.Errorf("Error while binding body: %v", err)
+		logrus.Errorf("Error while binding body: %v", err.Error())
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
 
 	encodedPassword, err := ac.AuthUsecase.EncryptPassword(input.Password, ac.Env.SERVERsecret)
 	if err != nil {
-		logrus.Errorf("Error while encrypting password: %v", err)
+		logrus.Errorf("Error while encrypting password: %v", err.Error())
 		c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: "Invalid credentials"})
 		return
 	}
@@ -46,7 +48,7 @@ func (ac *AuthController) Login(c *gin.Context) {
 
 	user, err := ac.AuthUsecase.GetByEmail(c, input.Email)
 	if err != nil {
-		logrus.Errorf("Error while getting user by email: %v", err)
+		logrus.Errorf("Error while getting user by email: %v", err.Error())
 		c.JSON(http.StatusNotFound, domain.ErrorResponse{Message: "User not found with the given email"})
 		return
 	}
@@ -65,6 +67,7 @@ func (ac *AuthController) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, loginResponse)
 }
 
+// Reg
 // @Summary Registration
 // @Description Do Registration with using username, email and password
 // @Tags auth v1
@@ -73,8 +76,9 @@ func (ac *AuthController) Login(c *gin.Context) {
 // @Produce json
 // @Param input body domain.Reg true "Registration"
 // @Success 200 {object} domain.SuccessResponse
-// @Failuer 500 {object} domain.ErrorResponse
-// @Failuer 400, 404 {object} domain.ErrorResponse
+// @Failure 500 {object} domain.ErrorResponse
+// @Failure 502 {object} domain.ErrorResponse
+// @Failure 400, 404, 409 {object} domain.ErrorResponse
 // @Failure default {object} domain.ErrorResponse
 // @Router /api/v1/auth/registration [post]
 func (ac *AuthController) Reg(c *gin.Context) {
@@ -113,16 +117,18 @@ func (ac *AuthController) Reg(c *gin.Context) {
 	c.JSON(http.StatusOK, domain.SuccessResponse{Status: "ok"})
 }
 
+// Refresh
 // @Summary Refresh
 // @Description Refresh token to get access and another refresh token
 // @Tags auth v1
-// @ID reftesh-token
+// @ID refresh-token
 // @Accept json
 // @Produce json
-// @Param input body domain.Refresh true "Registration"
+// @Param input body domain.Refresh true "Refresh"
 // @Success 200 {object} domain.RefreshTokenResponse
-// @Failuer 500 {object} domain.ErrorResponse
-// @Failuer 400, 404 {object} domain.ErrorResponse
+// @Failure 500 {object} domain.ErrorResponse
+// @Failure 502 {object} domain.ErrorResponse
+// @Failure 400, 404 {object} domain.ErrorResponse
 // @Failure default {object} domain.ErrorResponse
 // @Router /api/v1/auth/refresh [post]
 func (ac *AuthController) Refresh(c *gin.Context) {
