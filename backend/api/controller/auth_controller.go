@@ -93,6 +93,18 @@ func (ac *AuthController) Reg(c *gin.Context) {
 	c.JSON(http.StatusOK, domain.SuccessResponse{Status: "ok"})
 }
 
+// @Summary Refresh
+// @Description Refresh token to get access and another refresh token
+// @Tags auth v1
+// @ID reftesh-token
+// @Accept json
+// @Produce json
+// @Param input body domain.Refresh true "Registration"
+// @Success 200 {object} domain.RefreshTokenResponse
+// @Failuer 500 {object} domain.ErrorResponse
+// @Failuer 400, 404 {object} domain.ErrorResponse
+// @Failure default {object} domain.ErrorResponse
+// @Router /api/v1/auth/refresh [post]
 func (ac *AuthController) Refresh(c *gin.Context) {
 	var input domain.Refresh
 
