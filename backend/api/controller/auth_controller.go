@@ -49,17 +49,18 @@ func (ac *AuthController) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, loginResponse)
 }
 
-// @BasePath /api/v1
-
-// Registration godoc
-// @Summary Registration example
-// @Schemes
-// @Description Do Registration
-// @Tags auth
+// @Summary Registration
+// @Description Do Registration with using email and password
+// @Tags auth v1
+// @ID create-user
 // @Accept json
 // @Produce json
-// @Success 200 {string} ok
-// @Router /auth/registration [post]
+// @Param input body domain.Reg true "Registration"
+// @Success 200 {object} domain.SuccessResponse
+// @Failuer 500 {object} domain.ErrorResponse
+// @Failuer 400, 404 {object} domain.ErrorResponse
+// @Failure default {object} domain.ErrorResponse
+// @Router /api/v1/auth/registration [post]
 func (ac *AuthController) Reg(c *gin.Context) {
 	var input domain.Reg
 	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {

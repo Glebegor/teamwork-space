@@ -5,9 +5,9 @@
         "contact": {}
     },
     "paths": {
-        "/auth/registration": {
+        "/api/v1/auth/registration": {
             "post": {
-                "description": "Do Registration",
+                "description": "Do Registration with using email and password",
                 "consumes": [
                     "application/json"
                 ],
@@ -15,16 +15,66 @@
                     "application/json"
                 ],
                 "tags": [
-                    "auth"
+                    "auth v1"
                 ],
-                "summary": "Registration example",
+                "summary": "Registration",
+                "operationId": "create-user",
+                "parameters": [
+                    {
+                        "description": "Registration",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Reg"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "json"
+                            "$ref": "#/definitions/domain.SuccessResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "Message": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.Reg": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.SuccessResponse": {
+            "type": "object",
+            "properties": {
+                "Status": {
+                    "type": "string"
                 }
             }
         }

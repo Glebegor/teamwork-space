@@ -1,20 +1,52 @@
+definitions:
+  domain.ErrorResponse:
+    properties:
+      Message:
+        type: string
+    type: object
+  domain.Reg:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  domain.SuccessResponse:
+    properties:
+      Status:
+        type: string
+    type: object
 info:
   contact: {}
   title: Team work space Service API
 paths:
-  /auth/registration:
+  /api/v1/auth/registration:
     post:
       consumes:
       - application/json
-      description: Do Registration
+      description: Do Registration with using email and password
+      operationId: create-user
+      parameters:
+      - description: Registration
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Reg'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: json
-      summary: Registration example
+            $ref: '#/definitions/domain.SuccessResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Registration
       tags:
-      - auth
+      - auth v1
 swagger: "2.0"
