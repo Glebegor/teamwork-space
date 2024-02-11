@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -15,15 +16,31 @@ type AuthController struct {
 	Env         *bootstrap.Env
 }
 
+// Login
+// @Summary Login
+// @Description Do authorization with using email and password
+// @Tags auth v1
+// @ID authorization-user
+// @Accept json
+// @Produce json
+// @Param input body domain.Login true "Login"
+// @Success 200 {object} domain.LoginResponse
+// @Failure 500 {object} domain.ErrorResponse
+// @Failure 502 {object} domain.ErrorResponse
+// @Failure 400 {object} domain.ErrorResponse
+// @Failure default {object} domain.ErrorResponse
+// @Router /api/v1/auth/login [post]
 func (ac *AuthController) Login(c *gin.Context) {
 	var input domain.Reg
 	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
+		logrus.Errorf("Error while binding body: %v", err.Error())
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
 
 	encodedPassword, err := ac.AuthUsecase.EncryptPassword(input.Password, ac.Env.SERVERsecret)
 	if err != nil {
+		logrus.Errorf("Error while encrypting password: %v", err.Error())
 		c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: "Invalid credentials"})
 		return
 	}
@@ -31,6 +48,7 @@ func (ac *AuthController) Login(c *gin.Context) {
 
 	user, err := ac.AuthUsecase.GetByEmail(c, input.Email)
 	if err != nil {
+		logrus.Errorf("Error while getting user by email: %v", err.Error())
 		c.JSON(http.StatusNotFound, domain.ErrorResponse{Message: "User not found with the given email"})
 		return
 	}
@@ -49,20 +67,24 @@ func (ac *AuthController) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, loginResponse)
 }
 
-// @BasePath /api/v1
-
-// Registration godoc
-// @Summary Registration example
-// @Schemes
-// @Description Do Registration
-// @Tags auth
+// Reg
+// @Summary Registration
+// @Description Do Registration with using username, email and password
+// @Tags auth v1
+// @ID create-user
 // @Accept json
 // @Produce json
-// @Success 200 {string} ok
-// @Router /auth/registration [post]
+// @Param input body domain.Reg true "Registration"
+// @Success 200 {object} domain.SuccessResponse
+// @Failure 500 {object} domain.ErrorResponse
+// @Failure 502 {object} domain.ErrorResponse
+// @Failure 400 {object} domain.ErrorResponse
+// @Failure default {object} domain.ErrorResponse
+// @Router /api/v1/auth/registration [post]
 func (ac *AuthController) Reg(c *gin.Context) {
 	var input domain.Reg
 	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
+		logrus.Errorf("Error while binding body: %v", err.Error())
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
@@ -72,6 +94,7 @@ func (ac *AuthController) Reg(c *gin.Context) {
 	}
 	encodedPassword, err := ac.AuthUsecase.EncryptPassword(input.Password, ac.Env.SERVERsecret)
 	if err != nil {
+		logrus.Errorf("Error while encrypting password: %v", err.Error())
 		c.JSON(http.StatusBadGateway, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
@@ -86,28 +109,46 @@ func (ac *AuthController) Reg(c *gin.Context) {
 	}
 
 	if err := ac.AuthUsecase.Register(c, newUser); err != nil {
+		logrus.Errorf("Error while registering new user: %v", err.Error())
 		c.JSON(http.StatusBadGateway, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, domain.SuccessResponse{Status: "ok"})
 }
 
+// Refresh
+// @Summary Refresh
+// @Description Refresh token to get access and another refresh token
+// @Tags auth v1
+// @ID refresh-token
+// @Accept json
+// @Produce json
+// @Param input body domain.Refresh true "Refresh"
+// @Success 200 {object} domain.RefreshTokenResponse
+// @Failure 500 {object} domain.ErrorResponse
+// @Failure 502 {object} domain.ErrorResponse
+// @Failure 400 {object} domain.ErrorResponse
+// @Failure default {object} domain.ErrorResponse
+// @Router /api/v1/auth/refresh [post]
 func (ac *AuthController) Refresh(c *gin.Context) {
 	var input domain.Refresh
 
 	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
+		logrus.Errorf("Error while binding body: %v", err.Error())
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
 
 	id, err := ac.AuthUsecase.GetIdFromRefreshToken(input.RefreshToken, ac.Env.SERVERsecret)
 	if err != nil {
+		logrus.Errorf("Error while getting user from refresh token: %v", err.Error())
 		c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: "User not found"})
 		return
 	}
 
 	user, err := ac.AuthUsecase.GetUserById(c, id)
 	if err != nil {
+		logrus.Errorf("Error while getting user by id: %v", err.Error())
 		c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: "User not found"})
 		return
 	}

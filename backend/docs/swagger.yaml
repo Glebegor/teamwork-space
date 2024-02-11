@@ -1,20 +1,168 @@
+definitions:
+  domain.ErrorResponse:
+    properties:
+      Message:
+        type: string
+    type: object
+  domain.Login:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  domain.LoginResponse:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+    type: object
+  domain.Refresh:
+    properties:
+      refreshToken:
+        type: string
+    type: object
+  domain.RefreshTokenResponse:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+    type: object
+  domain.Reg:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  domain.SuccessResponse:
+    properties:
+      Status:
+        type: string
+    type: object
 info:
   contact: {}
   title: Team work space Service API
 paths:
-  /auth/registration:
+  /api/v1/auth/login:
     post:
       consumes:
       - application/json
-      description: Do Registration
+      description: Do authorization with using email and password
+      operationId: authorization-user
+      parameters:
+      - description: Login
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Login'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: json
-      summary: Registration example
+            $ref: '#/definitions/domain.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Login
       tags:
-      - auth
+      - auth v1
+  /api/v1/auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Refresh token to get access and another refresh token
+      operationId: refresh-token
+      parameters:
+      - description: Refresh
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Refresh'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.RefreshTokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Refresh
+      tags:
+      - auth v1
+  /api/v1/auth/registration:
+    post:
+      consumes:
+      - application/json
+      description: Do Registration with using username, email and password
+      operationId: create-user
+      parameters:
+      - description: Registration
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Reg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Registration
+      tags:
+      - auth v1
 swagger: "2.0"
