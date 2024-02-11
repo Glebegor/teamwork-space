@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"team-work-space/api/route"
 	"team-work-space/bootstrap"
 	"time"
@@ -13,6 +14,8 @@ import (
 
 // @title Team work space Service API
 func main() {
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+
 	app := bootstrap.App()
 	env := app.Env
 	db := app.Mongo.Database(env.DBname)
