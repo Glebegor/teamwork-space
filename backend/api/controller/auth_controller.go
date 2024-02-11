@@ -15,6 +15,18 @@ type AuthController struct {
 	Env         *bootstrap.Env
 }
 
+// @Summary Login
+// @Description Do authorization with using email and password
+// @Tags auth v1
+// @ID authorization-user
+// @Accept json
+// @Produce json
+// @Param input body domain.Login true "Registration"
+// @Success 200 {object} domain.LoginResponse
+// @Failuer 500 {object} domain.ErrorResponse
+// @Failuer 400, 404 {object} domain.ErrorResponse
+// @Failure default {object} domain.ErrorResponse
+// @Router /api/v1/auth/login [post]
 func (ac *AuthController) Login(c *gin.Context) {
 	var input domain.Reg
 	if err := c.ShouldBindBodyWith(&input, binding.JSON); err != nil {
@@ -50,7 +62,7 @@ func (ac *AuthController) Login(c *gin.Context) {
 }
 
 // @Summary Registration
-// @Description Do Registration with using email and password
+// @Description Do Registration with using username, email and password
 // @Tags auth v1
 // @ID create-user
 // @Accept json
