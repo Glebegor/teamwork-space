@@ -31,7 +31,7 @@ const docTemplate = `{
                 "operationId": "authorization-user",
                 "parameters": [
                     {
-                        "description": "Registration",
+                        "description": "Login",
                         "name": "input",
                         "in": "body",
                         "required": true,
@@ -45,6 +45,24 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/domain.LoginResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
                         }
                     },
                     "default": {
@@ -69,10 +87,10 @@ const docTemplate = `{
                     "auth v1"
                 ],
                 "summary": "Refresh",
-                "operationId": "reftesh-token",
+                "operationId": "refresh-token",
                 "parameters": [
                     {
-                        "description": "Registration",
+                        "description": "Refresh",
                         "name": "input",
                         "in": "body",
                         "required": true,
@@ -86,6 +104,24 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/domain.RefreshTokenResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
                         }
                     },
                     "default": {
@@ -127,6 +163,24 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/domain.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
                         }
                     },
                     "default": {

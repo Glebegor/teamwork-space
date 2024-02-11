@@ -27,7 +27,7 @@ type AuthController struct {
 // @Success 200 {object} domain.LoginResponse
 // @Failure 500 {object} domain.ErrorResponse
 // @Failure 502 {object} domain.ErrorResponse
-// @Failure 400, 404 {object} domain.ErrorResponse
+// @Failure 400 {object} domain.ErrorResponse
 // @Failure default {object} domain.ErrorResponse
 // @Router /api/v1/auth/login [post]
 func (ac *AuthController) Login(c *gin.Context) {
@@ -78,7 +78,7 @@ func (ac *AuthController) Login(c *gin.Context) {
 // @Success 200 {object} domain.SuccessResponse
 // @Failure 500 {object} domain.ErrorResponse
 // @Failure 502 {object} domain.ErrorResponse
-// @Failure 400, 404, 409 {object} domain.ErrorResponse
+// @Failure 400 {object} domain.ErrorResponse
 // @Failure default {object} domain.ErrorResponse
 // @Router /api/v1/auth/registration [post]
 func (ac *AuthController) Reg(c *gin.Context) {
@@ -89,7 +89,6 @@ func (ac *AuthController) Reg(c *gin.Context) {
 		return
 	}
 	if _, err := ac.AuthUsecase.GetByEmail(c, input.Email); err == nil {
-		logrus.Errorf("Error while getting user by email: %v", err.Error())
 		c.JSON(http.StatusConflict, domain.ErrorResponse{Message: "This is user already created with same email."})
 		return
 	}
@@ -128,7 +127,7 @@ func (ac *AuthController) Reg(c *gin.Context) {
 // @Success 200 {object} domain.RefreshTokenResponse
 // @Failure 500 {object} domain.ErrorResponse
 // @Failure 502 {object} domain.ErrorResponse
-// @Failure 400, 404 {object} domain.ErrorResponse
+// @Failure 400 {object} domain.ErrorResponse
 // @Failure default {object} domain.ErrorResponse
 // @Router /api/v1/auth/refresh [post]
 func (ac *AuthController) Refresh(c *gin.Context) {

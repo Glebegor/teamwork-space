@@ -55,7 +55,7 @@ paths:
       description: Do authorization with using email and password
       operationId: authorization-user
       parameters:
-      - description: Registration
+      - description: Login
         in: body
         name: input
         required: true
@@ -68,6 +68,18 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/domain.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
         default:
           description: ""
           schema:
@@ -80,9 +92,9 @@ paths:
       consumes:
       - application/json
       description: Refresh token to get access and another refresh token
-      operationId: reftesh-token
+      operationId: refresh-token
       parameters:
-      - description: Registration
+      - description: Refresh
         in: body
         name: input
         required: true
@@ -95,6 +107,18 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/domain.RefreshTokenResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
         default:
           description: ""
           schema:
@@ -122,6 +146,18 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/domain.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
         default:
           description: ""
           schema:
