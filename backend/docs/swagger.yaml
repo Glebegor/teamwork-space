@@ -1,5 +1,20 @@
 info:
   contact: {}
   title: Team work space Service API
-paths: {}
+paths:
+  /auth/registration:
+    post:
+      consumes:
+      - application/json
+      description: Do Registration
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: json
+      summary: Registration example
+      tags:
+      - auth
 swagger: "2.0"

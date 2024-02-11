@@ -6,3 +6,6 @@ rundb:
   -d --rm\
   -v db-team-work-space\
   mongo
+
+docsinit:
+	swag init -g ./cmd/main.go -o ./docs

@@ -58,7 +58,7 @@ func (ac *AuthController) Login(c *gin.Context) {
 // @Tags auth
 // @Accept json
 // @Produce json
-// @Success 200 {string}
+// @Success 200 {string} ok
 // @Router /auth/registration [post]
 func (ac *AuthController) Reg(c *gin.Context) {
 	var input domain.Reg
