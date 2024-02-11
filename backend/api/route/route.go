@@ -29,6 +29,7 @@ func SetupRoute(env *bootstrap.Env, timeout time.Duration, db mongo.Database, gi
 	// Add docs
 	if env.SERVERenv == "development" {
 		fmt.Print("DOCS ROUTES...\n")
+		// To see main page write index.html
 		gin.GET("docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 }
