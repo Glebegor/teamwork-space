@@ -1,8 +1,10 @@
 package controller
 
-// type TeamController struct {
-// 	usecase *usecase.UserUsecase
-// }
+import "team-work-space/domain"
+
+type TeamController struct {
+	usecase *domain.TeamUsecase
+}
 
 // func NewTeamController(usecase *usecase.UserUsecase) {
 
