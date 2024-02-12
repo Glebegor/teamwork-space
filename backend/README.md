@@ -96,13 +96,15 @@ Error response | Error response | ---
 
 ### Env
 
+.env / .product.env
 ```
 DB_PASSWORD="123321"
 SECRET="key"
 ```
 
-### Config
+### Configs
 
+dev.yml / product.yml
 ```
 server:
   ENV:  "development"
@@ -116,6 +118,21 @@ db:
   USERNAME: "admin"
 ```
 
+test.yml
+```
+server:
+  ENV:  "development"
+  PORT: 8080
+  TESTSECRET: "123321"
+
+db:
+  PORT:     5436
+  HOST:     "localhost"
+  NAME:     "team-work-space"
+  SSLMODE:  "disabled"
+  USERNAME: "admin"
+  TESTDBPASSWORD: "123321
+```
 ## Entityes
 
 ### Domain

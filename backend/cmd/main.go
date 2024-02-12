@@ -16,7 +16,7 @@ import (
 func main() {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 
-	app := bootstrap.App()
+	app := bootstrap.App("dev")
 	env := app.Env
 	db := app.Mongo.Database(env.DBname)
 
@@ -28,6 +28,8 @@ func main() {
 	route.SetupRoute(env, timeout, db, gin)
 	if env.SERVERenv == "development" {
 		fmt.Print("Running in development enviroment.\n	")
+	} else {
+		fmt.Print("Running in product enviroment.\n	")
 	}
 	gin.Run(":" + env.SERVERport)
 

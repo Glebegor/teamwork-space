@@ -1,0 +1,12 @@
+server:
+  ENV:  "tests"
+  PORT: "8080"
+  TESTSECRET: "123321"
+
+db:
+  PORT:     "6464"
+  HOST:     "localhost"
+  NAME:     "db-team-work-space-test"
+  SSLMODE:  "disabled"
+  USERNAME: "admin"
+  TESTDBPASSWORD: "123321"

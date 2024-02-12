@@ -1,10 +1,9 @@
 package bootstrap
 
 import (
-	"os"
-
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
+	"os"
 )
 
 type Env struct {
@@ -19,9 +18,9 @@ type Env struct {
 	DBpassword   string
 }
 
-func NewEnv() (*Env, error) {
+func NewEnv(EnvName string) (*Env, error) {
 	env := &Env{}
-	viper.SetConfigName("config")
+	viper.SetConfigName(EnvName)
 	viper.AddConfigPath("config")
 	if err := viper.ReadInConfig(); err != nil {
 		return env, err
@@ -37,8 +36,17 @@ func NewEnv() (*Env, error) {
 	env.DBname = viper.GetString("db.NAME")
 	env.DBsslmode = viper.GetString("db.SSLMODE")
 	env.DBusername = viper.GetString("db.USERNAME")
-	env.DBpassword = os.Getenv("DB_PASSWORD")
-	env.SERVERsecret = os.Getenv("SECRET")
+
+	if env.SERVERenv == "tests" {
+		env.DBpassword = viper.GetString("db.TESTDBPASSWORD")
+		env.SERVERsecret = viper.GetString("server.TESTSECRET")
+	} else if env.SERVERenv == "product" {
+		env.DBpassword = viper.GetString("db.TESTDBPASSWORD")
+		env.SERVERsecret = viper.GetString("server.TESTSECRET")
+	} else {
+		env.DBpassword = os.Getenv("DB_PASSWORD")
+		env.SERVERsecret = os.Getenv("SECRET")
+	}
 
 	return env, nil
 }
