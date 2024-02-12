@@ -39,7 +39,7 @@ func TestMain(m *testing.M) {
 			},
 		},
 	}
-	_, err = pool.RunWithOptions(options)
+	resource, err := pool.RunWithOptions(options)
 	if err != nil {
 		panic("Could not start resource: " + err.Error())
 	}
@@ -56,5 +56,9 @@ func TestMain(m *testing.M) {
 
 	route.SetupRoute(env, timeout, db, gin)
 	fmt.Print("Running in test enviroment.\n	")
-	//gin.Run(":" + env.SERVERport)
+
+	if err := pool.Purge(resource); err != nil {
+		panic("Could not purge resource: " + err.Error())
+	}
+	os.Exit(m.Run())
 }
