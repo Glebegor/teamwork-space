@@ -39,7 +39,10 @@ func NewEnv(EnvName string) (*Env, error) {
 
 	if env.SERVERenv == "tests" {
 		env.DBpassword = viper.GetString("db.TESTDBPASSWORD")
-		env.SERVERsecret = viper.GetString("db.TESTSECRET")
+		env.SERVERsecret = viper.GetString("server.TESTSECRET")
+	} else if env.SERVERenv == "product" {
+		env.DBpassword = viper.GetString("db.TESTDBPASSWORD")
+		env.SERVERsecret = viper.GetString("server.TESTSECRET")
 	} else {
 		env.DBpassword = os.Getenv("DB_PASSWORD")
 		env.SERVERsecret = os.Getenv("SECRET")
