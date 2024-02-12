@@ -1,8 +1,0 @@
-{
-    "swagger": "2.0",
-    "info": {
-        "title": "Team work space Service API",
-        "contact": {}
-    },
-    "paths": {}
-}
