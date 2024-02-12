@@ -13,7 +13,7 @@ type Application struct {
 
 func App(EnvName string) Application {
 	app := &Application{}
-	env, err := NewEnv()
+	env, err := NewEnv(EnvName)
 	if err != nil {
 		logrus.Fatalf("Error while getting environment variables: %v", err.Error())
 	}

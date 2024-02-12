@@ -1,5 +1,5 @@
 server:
-  ENV:  "test"
+  ENV:  "tests"
   PORT: "8080"
   TESTSECRET: "123321"
 

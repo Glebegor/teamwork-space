@@ -16,7 +16,7 @@ import (
 func TestMain(m *testing.M) {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 
-	app := bootstrap.App("test.yml")
+	app := bootstrap.App("tests")
 	env := app.Env
 	db := app.Mongo.Database(env.DBname)
 
@@ -26,9 +26,7 @@ func TestMain(m *testing.M) {
 	gin.Use(bootstrap.CORS())
 
 	route.SetupRoute(env, timeout, db, gin)
-	if env.SERVERenv == "development" {
-		fmt.Print("Running in development enviroment.\n	")
-	}
+	fmt.Print("Running in test enviroment.\n	")
 	gin.Run(":" + env.SERVERport)
 
 }
