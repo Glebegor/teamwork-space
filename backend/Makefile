@@ -9,3 +9,6 @@ rundb:
 
 docsinit:
 	swag init -g ./cmd/main.go -o ./docs
+
+runtests:
+	go test -v ./...
