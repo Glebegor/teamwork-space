@@ -62,7 +62,7 @@ func TestMain(m *testing.M) {
 	gin.Use(bootstrap.CORS())
 
 	route.SetupRoute(env, timeout, db, gin)
-	fmt.Print("Running in test enviroment.\n	")
+	fmt.Print("Running in test enviroment.")
 	exitCode := m.Run()
 
 	if err := pool.Purge(resource); err != nil {
@@ -74,7 +74,7 @@ func TestMain(m *testing.M) {
 
 var AuthRepository domain.AuthRepository
 
-func TestRepositoryCreate(t *testing.T) {
+func TestAuthRepositoryCreate(t *testing.T) {
 	var user domain.User
 	ctx := context.Background()
 
@@ -85,4 +85,22 @@ func TestRepositoryCreate(t *testing.T) {
 	user.ID = primitive.NewObjectID()
 	err := AuthRepository.Create(ctx, user)
 	assert.NoError(t, err)
+}
+
+var testuser domain.User
+
+func TestAuthRepositoryGetByEmail(t *testing.T) {
+	ctx := context.Background()
+	email := "test@gmail.com"
+	user, err := AuthRepository.GetByEmail(ctx, email)
+	testuser = user
+	assert.NoError(t, err)
+	assert.Equal(t, user.Email, email)
+}
+
+func TestAuthRepositoryGetById(t *testing.T) {
+	ctx := context.Background()
+	user, err := AuthRepository.GetById(ctx, testuser.ID.Hex())
+	assert.NoError(t, err)
+	assert.Equal(t, user.ID, testuser.ID)
 }
