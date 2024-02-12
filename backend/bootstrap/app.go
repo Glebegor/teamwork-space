@@ -11,7 +11,7 @@ type Application struct {
 	Env   *Env
 }
 
-func App() Application {
+func App(EnvName string) Application {
 	app := &Application{}
 	env, err := NewEnv()
 	if err != nil {

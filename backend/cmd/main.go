@@ -16,7 +16,7 @@ import (
 func main() {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 
-	app := bootstrap.App()
+	app := bootstrap.App("config.yml")
 	env := app.Env
 	db := app.Mongo.Database(env.DBname)
 
