@@ -4,7 +4,7 @@ server:
   TESTSECRET: "123321"
 
 db:
-  PORT:     "5555"
+  PORT:     "6464"
   HOST:     "localhost"
   NAME:     "db-team-work-space-test"
   SSLMODE:  "disabled"
