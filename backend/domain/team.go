@@ -18,11 +18,11 @@ type TeamUpdate struct {
 	TeamMembers  string `json:"teamMembers" bson:"teamMembers"`
 }
 type TeamUsecase interface {
-	Create()
-	GetAll()
-	GetById()
-	Delete()
-	Update()
+	Create(input Team) error
+	GetAll() ([]Team, error)
+	GetById(id string) (*Team, error)
+	Update(id string, input *TeamUpdate) error
+	Delete(id string) error
 }
 type TeamRepository interface {
 	Create(input Team) error

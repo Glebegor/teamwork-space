@@ -17,13 +17,13 @@ func NewUserRepository(database mongo.Database, collection string) domain.UserRe
 		collection: collection,
 	}
 }
-func (uu *userRepository) GetById(c context.Context, id string) (*domain.User, error) {
+func (ur *userRepository) GetById(c context.Context, id string) (*domain.User, error) {
 	return nil, nil
 }
-func (uu *userRepository) GetByEmail(c context.Context, email string) (*domain.User, error) {
+func (ur *userRepository) GetByEmail(c context.Context, email string) (*domain.User, error) {
 	return nil, nil
 }
-func (uu *userRepository) Update(c context.Context, id string, input *domain.UserUpdate) error {
+func (ur *userRepository) Update(c context.Context, id string, input *domain.UserUpdate) error {
 	return nil
 }
-func (uu *userRepository) Delete(c context.Context, id string) error { return nil }
+func (ur *userRepository) Delete(c context.Context, id string) error { return nil }
