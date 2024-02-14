@@ -2,7 +2,7 @@ package domain
 
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
-const TeamCollection = "teams"
+const CollectionTeam = "teams"
 
 type Team struct {
 	ID           primitive.ObjectID `json:"id" bson:"_id"`
