@@ -74,6 +74,7 @@ func TestMain(m *testing.M) {
 
 var AuthRepository domain.AuthRepository
 
+// Auth repo
 func TestAuthRepositoryCreate(t *testing.T) {
 	var user domain.User
 	ctx := context.Background()

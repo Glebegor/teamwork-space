@@ -9,13 +9,12 @@ type Team struct {
 	Name         string             `json:"name" bson:"name"`
 	Subscribtion string             `json:"subscribtion" bson:"subscription"`
 	Owner        string             `json:"owner" bson:"owner"`
-	TeamMembers  string             `json:"teamMembers" bson:"teamMembers"`
+	TeamMembers  []string           `json:"teamMembers" bson:"teamMembers"`
 }
 type TeamUpdate struct {
 	Name         string `json:"name" bson:"name"`
 	Subscribtion string `json:"subscribtion" bson:"subscription"`
 	Owner        string `json:"owner" bson:"owner"`
-	TeamMembers  string `json:"teamMembers" bson:"teamMembers"`
 }
 type TeamUsecase interface {
 	Create(input Team) error
