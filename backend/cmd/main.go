@@ -32,5 +32,4 @@ func main() {
 		fmt.Print("Running in product enviroment.\n	")
 	}
 	gin.Run(":" + env.SERVERport)
-
 }
