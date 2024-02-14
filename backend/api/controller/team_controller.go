@@ -6,6 +6,6 @@ type TeamController struct {
 	usecase *domain.TeamUsecase
 }
 
-// func NewTeamController(usecase *usecase.UserUsecase) {
-
-// }
+//func NewTeamController(usecase *usecase.TeamController) {
+//
+//}

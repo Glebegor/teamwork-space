@@ -11,6 +11,12 @@ type Team struct {
 	Owner        string             `json:"owner" bson:"owner"`
 	TeamMembers  string             `json:"teamMembers" bson:"teamMembers"`
 }
+type TeamUpdate struct {
+	Name         string `json:"name" bson:"name"`
+	Subscribtion string `json:"subscribtion" bson:"subscription"`
+	Owner        string `json:"owner" bson:"owner"`
+	TeamMembers  string `json:"teamMembers" bson:"teamMembers"`
+}
 type TeamUsecase interface {
 	Create()
 	GetAll()
@@ -19,9 +25,9 @@ type TeamUsecase interface {
 	Update()
 }
 type TeamRepository interface {
-	Create()
-	GetAll()
-	GetById()
-	Delete()
-	Update()
+	Create(input Team) error
+	GetAll() ([]Team, error)
+	GetById(id string) (*Team, error)
+	Update(id string, input *TeamUpdate) error
+	Delete(id string) error
 }
