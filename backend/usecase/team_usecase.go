@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"context"
 	"team-work-space/domain"
 	"time"
 )
@@ -20,12 +21,12 @@ func (tu *teamUsecase) Create(input domain.Team) error {
 	return nil
 }
 func (tu *teamUsecase) GetAll() ([]domain.Team, error) {
-	return nil, nil
+	return tu.repo.GetAll()
 }
-func (tu *teamUsecase) GetById(id string) (*domain.Team, error) {
-	return nil, nil
+func (tu *teamUsecase) GetById(c context.Context, id string) (domain.Team, error) {
+	return tu.repo.GetById(c, id)
 }
-func (tu *teamUsecase) Update(id string, input *domain.TeamUpdate) error {
+func (tu *teamUsecase) Update(id string, input domain.TeamUpdate) error {
 	return nil
 }
 func (tu *teamUsecase) Delete(id string) error {

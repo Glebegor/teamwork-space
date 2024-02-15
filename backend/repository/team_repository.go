@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"context"
+	"go.mongodb.org/mongo-driver/bson"
 	"team-work-space/domain"
 	"team-work-space/mongo"
 )
@@ -23,10 +25,15 @@ func (tr *teamRepository) Create(input domain.Team) error {
 func (tr *teamRepository) GetAll() ([]domain.Team, error) {
 	return nil, nil
 }
-func (tr *teamRepository) GetById(id string) (*domain.Team, error) {
-	return nil, nil
+func (tr *teamRepository) GetById(c context.Context, id string) (domain.Team, error) {
+	var team domain.Team
+	err := tr.database.Collection(tr.collection).FindOne(c, bson.M{"_id": id}).Decode(&team)
+	if err != nil {
+		return team, err
+	}
+	return team, nil
 }
-func (tr *teamRepository) Update(id string, input *domain.TeamUpdate) error {
+func (tr *teamRepository) Update(id string, input domain.TeamUpdate) error {
 	return nil
 }
 func (tr *teamRepository) Delete(id string) error {

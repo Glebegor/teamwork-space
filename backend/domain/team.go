@@ -1,6 +1,9 @@
 package domain
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"context"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 const CollectionTeam = "teams"
 
@@ -19,14 +22,14 @@ type TeamUpdate struct {
 type TeamUsecase interface {
 	Create(input Team) error
 	GetAll() ([]Team, error)
-	GetById(id string) (*Team, error)
-	Update(id string, input *TeamUpdate) error
+	GetById(c context.Context, id string) (Team, error)
+	Update(id string, input TeamUpdate) error
 	Delete(id string) error
 }
 type TeamRepository interface {
 	Create(input Team) error
 	GetAll() ([]Team, error)
-	GetById(id string) (*Team, error)
-	Update(id string, input *TeamUpdate) error
+	GetById(c context.Context, id string) (Team, error)
+	Update(id string, input TeamUpdate) error
 	Delete(id string) error
 }

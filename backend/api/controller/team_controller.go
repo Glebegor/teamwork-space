@@ -11,7 +11,11 @@ type TeamController struct {
 }
 
 func (tc *TeamController) GetAll(c *gin.Context) {
-	var data []domain.Team
+	data, err := tc.TeamUsecase.GetAll()
+	if err != nil {
+		c.JSON(http.StatusBadGateway, domain.ErrorResponse{})
+		c.Abort()
+	}
 	c.JSON(http.StatusOK, data)
 }
 func (tc *TeamController) GetById(c *gin.Context) {
