@@ -19,8 +19,9 @@ func NewTeamRepository(database mongo.Database, collection string) domain.TeamRe
 	}
 }
 
-func (tr *teamRepository) Create(input domain.Team) error {
-	return nil
+func (tr *teamRepository) Create(c context.Context, input domain.Team) error {
+	_, err := tr.database.Collection(tr.collection).InsertOne(c, input)
+	return err
 }
 func (tr *teamRepository) GetAll() ([]domain.Team, error) {
 	return nil, nil

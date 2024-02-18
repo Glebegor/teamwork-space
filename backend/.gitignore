@@ -1,5 +1,6 @@
 # secconfigs
 .env
+.product.env
 token
 token.cs
 

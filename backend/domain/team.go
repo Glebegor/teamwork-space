@@ -20,14 +20,14 @@ type TeamUpdate struct {
 	Owner        string `json:"owner" bson:"owner"`
 }
 type TeamUsecase interface {
-	Create(input Team) error
+	Create(c context.Context, input Team) error
 	GetAll() ([]Team, error)
 	GetById(c context.Context, id string) (Team, error)
 	Update(id string, input TeamUpdate) error
 	Delete(id string) error
 }
 type TeamRepository interface {
-	Create(input Team) error
+	Create(c context.Context, input Team) error
 	GetAll() ([]Team, error)
 	GetById(c context.Context, id string) (Team, error)
 	Update(id string, input TeamUpdate) error

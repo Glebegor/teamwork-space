@@ -17,7 +17,7 @@ func NewTeamUsecase(repo domain.TeamRepository, timeout time.Duration) domain.Te
 		contextTimeout: timeout,
 	}
 }
-func (tu *teamUsecase) Create(input domain.Team) error {
+func (tu *teamUsecase) Create(c context.Context, input domain.Team) error {
 	return nil
 }
 func (tu *teamUsecase) GetAll() ([]domain.Team, error) {
