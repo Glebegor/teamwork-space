@@ -32,4 +32,5 @@ type TeamRepository interface {
 	GetById(c context.Context, id string) (Team, error)
 	Update(id string, input TeamUpdate) error
 	Delete(id string) error
+	GetAllByOwner(c context.Context, owner string) ([]Team, error)
 }
