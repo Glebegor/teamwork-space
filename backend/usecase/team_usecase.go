@@ -32,3 +32,6 @@ func (tu *teamUsecase) Update(id string, input domain.TeamUpdate) error {
 func (tu *teamUsecase) Delete(id string) error {
 	return nil
 }
+func (tu *teamUsecase) GetAllByOwner(c context.Context, owner string) ([]Team, error) {
+	return nil, nil
+}
